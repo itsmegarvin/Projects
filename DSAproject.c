@@ -2,25 +2,24 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
-int disease;
 struct node
 {
-    char *name[100];
+    char name[100];
     int age;
-    char *address[100];
+    char address[100];
     int phone;
     char bloodgroup[100];
     int reg;
     int priority;
-    int num;
     struct node *next;
 };
 struct node *head = NULL;
-struct node *insert(struct node *);
+struct node *insert(struct node *,int);
 struct node *delete(struct node *);
-void display(struct node *);
-/*
-pointer to function
+void display(struct node * );
+void table();
+void print_disease(int);
+/*pointer to function
     void fun(int a)
         printf("Value of a is %d\n", a);
     int main()
@@ -49,14 +48,13 @@ int main()
         switch (option)
         {
         case 1:
-            head = insert(head);
+            void table();
+            int priority;
+            printf("\nPRIORITY FOR THE PATIENT CASE :");
+            scanf("%d",&priority);
+            head = insert(head,priority);
             getchar();
             system("cls");
-            /*In compilers like- Turbo C or Borland C,
-             the statement clrscr() clears the output 
-             screen. But, in GNU based MinGW compilers
-              the clrscr() statement is not supported
-            */
             break;
         case 2:
             head = delete (head);
@@ -74,10 +72,8 @@ int main()
         }
     } while (option != 4);
 }
-struct node *insert(struct node *head)
+struct node *insert(struct node *head, int priority)
 {
-    int pri;
-    char val1, val3, val5;
     struct node *newnode, *ptr;
     newnode = (struct node *)malloc(sizeof(struct node));
     printf("Enter patient Name:");
@@ -92,22 +88,23 @@ struct node *insert(struct node *head)
     scanf(" %s", newnode->bloodgroup);
     printf("Enter the reg no:");
     scanf("%d", &newnode->reg);
-    printf("Enter your disease Number:");
     table();
-    scanf("%d", &disease);
-    newnode->priority = pri;
-    // newnode->disease=pri;
-    if ((head == NULL) || pri < head->priority)
+    printf("Enter your disease Number:");
+    scanf("%d", &newnode->priority);
+    if (head == NULL || priority < head->priority)
     {
         newnode->next = head;
         head = newnode;
     }
     else
     {
+        //INSERTION AT THE END
         ptr = head;
-        while (ptr->next != NULL && ptr->next->priority <= pri)
+        while (ptr->next != NULL)
+        {
             ptr = ptr->next;
-        newnode->next = ptr->next;
+        }
+        newnode->next = NULL;
         ptr->next = newnode;
     }
     return head;
@@ -132,12 +129,12 @@ struct node *delete(struct node *head)
 void display(struct node *head)
 {
     struct node *newnode;
-    newnode = head;
     if (head == NULL)
         printf("\nTHERE IS NO PATIENT\n");
     else
     {
-        printf("\nPriority wise appointments are:\n");
+        newnode = head;
+        printf("\nPRIORITY WISE APPOINTMENT ARE\n");
         while (newnode != NULL)
         {
             printf("The name of patient is:%s\n", newnode->name);
@@ -146,7 +143,7 @@ void display(struct node *head)
             printf("Phone Number:%d\n", newnode->phone);
             printf("The blood group of patient is:%s\n", newnode->bloodgroup);
             printf("Disease of the patient is :  ");
-            print_disease(disease);
+            print_disease(newnode->priority);
             printf("---------------------------------------------------\n");
             newnode = newnode->next;
         }
@@ -155,49 +152,53 @@ void display(struct node *head)
 }
 void table()
 {
-    printf("\t\t\nPlease Refer this Table for your disease!\n");
-    printf("1.Heart attack\n");
-    printf("2.Severe wound/Bleeding\n");
-    printf("3.Cancer\n");
-    printf("4.Chest pain\n");
-    printf("5.Fracture\n");
-    printf("6.Diabetes Checkup\n");
-    printf("7.Infection\n");
-    printf("8.Viral Fever\n");
-    printf("9.Common Cold/Head ache\n");
+    printf("\n\t\t\t ENTER THE DISEASE OF PATIENT!\n");
+    printf("\t1.EMERGENCY CASE\n");
+    printf("\t2.HEART ATTACK\n");
+    printf("\t3.SEVERE WOUND/BLEEDING\n");
+    printf("\t4.CANCER\n");
+    printf("\t5.CHEST PAIN\n");
+    printf("\t6.FRACTURE\n");
+    printf("\t7.DIABETES CHECKUP\n");
+    printf("\t8.INFECTION\n");
+    printf("\t9.VIRAL FEVER\n");
+    printf("\t10.COMMON COLD/HEAD ACHE\n");
 }
-void print_disease(int n)
+void print_disease(int priority)
 {
-    switch (n)
+    switch (priority)
     {
-
     case 1:
-        printf("Heart attack\n");
-        return;
+        printf("EMERGENCY CASE\n");
+        break;
+
     case 2:
-        printf("Severe wound/Bleeding\n");
-        return;
+        printf("HEART ATTACK\n");
+        break;
     case 3:
-        printf("Cancer\n");
-        return;
+        printf("SEVERE WOUND/BLEEDING\n");
+        break;
     case 4:
-        printf("Chest pain\n");
-        return;
+        printf("CANCER\n");
+        break;
     case 5:
-        printf("Fracture\n");
-        return;
+        printf("CHEST PAIN\n");
+        break;
     case 6:
-        printf("Diabetes Checkup\n");
-        return;
+        printf("FRACTURE\n");
+        break;
     case 7:
-        printf("Infection\n");
-        return;
+        printf("\nDIABETES CHECKUP");
+        break;
     case 8:
-        printf("Viral Fever\n");
-        return;
+        printf("INFECTION\n");
+        break;
     case 9:
+        printf("VIRAL FEVER\n");
+        break;
+    case 10:
         printf("Common Cold/Head ache\n");
-        return;
+        break;
     default:
         exit(0);
     }
